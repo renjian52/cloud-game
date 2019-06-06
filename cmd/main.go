@@ -72,7 +72,9 @@ func initializeWorker() {
 		}
 
 		l.Close()
-		http.Handle("/metrics", promhttp.Handler())
+		if *config.IsMonitor == true {
+			http.Handle("/metrics", promhttp.Handler())
+		}
 		http.ListenAndServe(":"+strconv.Itoa(port), nil)
 	}
 }

@@ -2,9 +2,10 @@
 package emulator
 
 import (
-	"image"
+	"time"
 
 	"github.com/giongto35/cloud-game/emulator/nes"
+	vpxEncoder "github.com/giongto35/cloud-game/vpx-encoder"
 )
 
 // List key pressed
@@ -49,7 +50,7 @@ type GameView struct {
 	savingJob  *job
 	loadingJob *job
 
-	imageChannel chan<- *image.RGBA
+	imageChannel chan<- vpxEncoder.ImgByteRaw
 	audioChannel chan<- float32
 	inputChannel <-chan int
 }
@@ -59,7 +60,7 @@ type job struct {
 	extraFunc func() error
 }
 
-func NewGameView(console *nes.Console, title, saveFile string, imageChannel chan<- *image.RGBA, audioChannel chan<- float32, inputChannel <-chan int) *GameView {
+func NewGameView(console *nes.Console, title, saveFile string, imageChannel chan<- vpxEncoder.ImgByteRaw, audioChannel chan<- float32, inputChannel <-chan int) *GameView {
 	gameview := &GameView{
 		console:      console,
 		title:        title,
@@ -141,7 +142,7 @@ func (view *GameView) Update(t, dt float64) {
 	console.StepSeconds(dt)
 
 	// fps to set frame
-	view.imageChannel <- console.Buffer()
+	view.imageChannel <- vpxEncoder.ImgByteRaw{Time: time.Now(), Img: console.Buffer()}
 }
 
 func (view *GameView) Save(hash string, extraSaveFunc func() error) {

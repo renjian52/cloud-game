@@ -1,7 +1,6 @@
 package room
 
 import (
-	"image"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -12,6 +11,7 @@ import (
 	"time"
 
 	emulator "github.com/giongto35/cloud-game/emulator"
+	vpxEncoder "github.com/giongto35/cloud-game/vpx-encoder"
 	"github.com/giongto35/cloud-game/webrtc"
 	storage "github.com/giongto35/cloud-game/worker/cloud-storage"
 )
@@ -22,7 +22,7 @@ type Room struct {
 	ID string
 
 	// imageChannel is image stream received from director
-	imageChannel <-chan *image.RGBA
+	imageChannel <-chan vpxEncoder.ImgByteRaw
 	// audioChannel is audio stream received from director
 	audioChannel <-chan float32
 	// inputChannel is input stream from websocket send to room
@@ -48,7 +48,7 @@ func NewRoom(roomID, gamepath, gameName string, onlineStorage *storage.Client) *
 		roomID = generateRoomID()
 	}
 	log.Println("Init new room", roomID, gameName)
-	imageChannel := make(chan *image.RGBA, 30)
+	imageChannel := make(chan vpxEncoder.ImgByteRaw, 30)
 	audioChannel := make(chan float32, 30)
 	inputChannel := make(chan int, 100)
 

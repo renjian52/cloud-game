@@ -2,11 +2,10 @@ package vpxencoder
 
 import (
 	"fmt"
+	"image"
 	"log"
 	"time"
 	"unsafe"
-
-	"github.com/giongto35/cloud-game/config"
 )
 
 // https://chromium.googlesource.com/webm/libvpx/+/master/examples/simple_encoder.c
@@ -46,8 +45,8 @@ const chanSize = 2
 // NewVpxEncoder create vp8 encoder
 func NewVpxEncoder(w, h, fps, bitrate, keyframe int) (*VpxEncoder, error) {
 	v := &VpxEncoder{
-		Output: make(chan []byte, 5*chanSize),
-		Input:  make(chan []byte, chanSize),
+		Output: make(chan ImgByte, 5*chanSize),
+		Input:  make(chan ImgByte, chanSize),
 
 		IsRunning: true,
 		Done:      false,
@@ -67,10 +66,20 @@ func NewVpxEncoder(w, h, fps, bitrate, keyframe int) (*VpxEncoder, error) {
 	return v, nil
 }
 
+type ImgByte struct {
+	Time time.Time
+	Byte []byte
+}
+
+type ImgByteRaw struct {
+	Time time.Time
+	Img  *image.RGBA
+}
+
 // VpxEncoder yuvI420 image to vp8 video
 type VpxEncoder struct {
-	Output chan []byte // frame
-	Input  chan []byte // yuvI420
+	Output chan ImgByte // frame
+	Input  chan ImgByte // yuvI420
 
 	IsRunning bool
 	Done      bool
@@ -126,13 +135,14 @@ func (v *VpxEncoder) startLooping() {
 		}
 	}()
 
-	for yuv := range v.Input {
+	for imgByte := range v.Input {
 		if v.Done == true {
 			// The first time we see IsRunning set to false, we release and return
 			v.Release()
 			return
 		}
-		beginEncoding := time.Now()
+		//beginEncoding := time.Now()
+		yuv := imgByte.Byte
 
 		// Add Image
 		v.vpxCodexIter = nil
@@ -157,11 +167,11 @@ func (v *VpxEncoder) startLooping() {
 		if len(v.Output) >= cap(v.Output) {
 			continue
 		}
-		v.Output <- bs
+		v.Output <- ImgByte{Time: imgByte.Time, Byte: bs}
 
-		if *config.IsMonitor {
-			log.Println("Encoding time: ", time.Now().Sub(beginEncoding))
-		}
+		//if *config.IsMonitor {
+		//log.Println("Encoding time: ", time.Now().Sub(beginEncoding))
+		//}
 	}
 	if v.Done == true {
 		// The first time we see IsRunning set to false, we release and return

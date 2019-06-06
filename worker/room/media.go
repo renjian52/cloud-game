@@ -6,6 +6,7 @@ import (
 	"github.com/giongto35/cloud-game/config"
 	"github.com/giongto35/cloud-game/emulator"
 	"github.com/giongto35/cloud-game/util"
+	vpxEncoder "github.com/giongto35/cloud-game/vpx-encoder"
 	"gopkg.in/hraban/opus.v2"
 )
 
@@ -82,7 +83,7 @@ func (r *Room) startVideo() {
 		}
 
 		// TODO: Use worker pool for encoding
-		util.RgbaToYuvInplace(image, yuv)
+		util.RgbaToYuvInplace(image.Img, yuv)
 		// TODO: r.rtcSessions is rarely updated. Lock will hold down perf
 		//r.sessionsLock.Lock()
 		for _, webRTC := range r.rtcSessions {
@@ -95,9 +96,10 @@ func (r *Room) startVideo() {
 			// fanout imageChannel
 			if webRTC.IsConnected() {
 				// NOTE: can block here
-				webRTC.ImageChannel <- yuv
+				webRTC.ImageChannel <- vpxEncoder.ImgByte{Time: image.Time, Byte: yuv}
 			}
 		}
 		//r.sessionsLock.Unlock()
 	}
+	log.Println("Room ", r.ID, " video channel closed 2")
 }

@@ -59,7 +59,7 @@ func NewWebRTC() *WebRTC {
 	w := &WebRTC{
 		ID: uuid.Must(uuid.NewV4()).String(),
 
-		ImageChannel: make(chan []byte, 30),
+		ImageChannel: make(chan vpxEncoder.ImgByte, 30),
 		AudioChannel: make(chan []byte, 30),
 		InputChannel: make(chan int, 100),
 	}
@@ -80,7 +80,7 @@ type WebRTC struct {
 	isConnected bool
 	isClosed    bool
 	// for yuvI420 image
-	ImageChannel chan []byte
+	ImageChannel chan vpxEncoder.ImgByte
 	AudioChannel chan []byte
 	InputChannel chan int
 
@@ -297,7 +297,13 @@ func (w *WebRTC) startStreaming(vp8Track *webrtc.Track, audioTrack *webrtc.DataC
 			if *config.IsMonitor {
 				log.Println("Encoding FPS : ", w.calculateFPS())
 			}
-			vp8Track.WriteSample(media.Sample{Data: bs, Samples: 1})
+			// We drop frame that is lag behind
+			if time.Now().Sub(bs.Time) <= config.DecodeTolerance {
+				vp8Track.WriteSample(media.Sample{Data: bs.Byte, Samples: 1})
+			} else {
+				log.Println("Package drop", time.Now().Sub(bs.Time))
+			}
+
 		}
 	}()
 
