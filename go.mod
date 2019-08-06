@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	cloud.google.com/go v0.39.0
+	github.com/gen2brain/x264-go v0.0.0-20180306035800-58f586137654
 	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/gorilla/websocket v1.4.0
 	github.com/pion/webrtc/v2 v2.1.2

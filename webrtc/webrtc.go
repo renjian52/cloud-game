@@ -113,7 +113,7 @@ func (w *WebRTC) StartClient(remoteSession string, iceCandidates []string) (stri
 		return "", err
 	}
 
-	vp8Track, err := w.connection.NewTrack(webrtc.DefaultPayloadTypeVP8, rand.Uint32(), "video", "pion2")
+	vp8Track, err := w.connection.NewTrack(webrtc.DefaultPayloadTypeH264, rand.Uint32(), "video", "pion2")
 	if err != nil {
 		return "", err
 	}
