@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/giongto35/cloud-game/config"
-	vpxEncoder "github.com/giongto35/cloud-game/vpx-encoder"
+	"github.com/giongto35/cloud-game/h264encoder"
 	"github.com/gofrs/uuid"
 	"github.com/pion/webrtc/v2"
 	"github.com/pion/webrtc/v2/pkg/media"
@@ -75,8 +75,9 @@ type InputDataPair struct {
 type WebRTC struct {
 	ID string
 
-	connection  *webrtc.PeerConnection
-	encoder     *vpxEncoder.VpxEncoder
+	connection *webrtc.PeerConnection
+	//encoder     *vpxEncoder.VpxEncoder
+	encoder     *h264encoder.VpxEncoder
 	isConnected bool
 	isClosed    bool
 	// for yuvI420 image

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	vpxEncoder "github.com/giongto35/cloud-game/vpx-encoder"
+	"github.com/giongto35/cloud-game/h264encoder"
 	"gopkg.in/hraban/opus.v2"
 )
 
@@ -99,7 +99,8 @@ func (r *Room) startVideo(width, height int) {
 	//size := int(float32(width*height) * 1.5)
 	//yuv := make([]byte, size, size)
 
-	encoder, err := vpxEncoder.NewVpxEncoder(width, height, 20)
+	//encoder, err := vpxEncoder.NewVpxEncoder(width, height, 20)
+	encoder, err := h264encoder.NewVpxEncoder(width, height, 20)
 	if err != nil {
 		fmt.Println("error create new encoder", err)
 		return
