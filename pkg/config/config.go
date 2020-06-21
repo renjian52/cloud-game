@@ -2,7 +2,7 @@ package config
 
 import (
 	"flag"
-	"github.com/giongto35/cloud-game/pkg/emulator/libretro/image"
+	"github.com/giongto35/cloud-game/pkg/emulator/simplelibretro/image"
 	"time"
 )
 

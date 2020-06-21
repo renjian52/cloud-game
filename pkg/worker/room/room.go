@@ -16,7 +16,7 @@ import (
 
 	"github.com/giongto35/cloud-game/pkg/config"
 	"github.com/giongto35/cloud-game/pkg/emulator"
-	"github.com/giongto35/cloud-game/pkg/emulator/libretro/nanoarch"
+	"github.com/giongto35/cloud-game/pkg/emulator/simplelibretro/nanoarch"
 	"github.com/giongto35/cloud-game/pkg/util"
 	"github.com/giongto35/cloud-game/pkg/util/gamelist"
 	"github.com/giongto35/cloud-game/pkg/webrtc"
