@@ -7,7 +7,6 @@ import (
 	"github.com/giongto35/cloud-game/pkg/config"
 	"github.com/giongto35/cloud-game/pkg/encoder"
 	"github.com/giongto35/cloud-game/pkg/encoder/h264encoder"
-	vpxencoder "github.com/giongto35/cloud-game/pkg/encoder/vpx-encoder"
 	"github.com/giongto35/cloud-game/pkg/util"
 	"gopkg.in/hraban/opus.v2"
 )
@@ -139,7 +138,8 @@ func (r *Room) startVideo(width, height int, videoEncoderType string) {
 	if videoEncoderType == config.CODEC_H264 {
 		encoder, err = h264encoder.NewH264Encoder(width, height, 1)
 	} else {
-		encoder, err = vpxencoder.NewVpxEncoder(width, height, 20, 1200, 5)
+		fmt.Println("error create new encoder encode type:", videoEncoderType)
+		return
 	}
 
 	defer func() {
