@@ -1,14 +1,16 @@
 package nanoarch
 
 import (
+	"github.com/hajimehoshi/ebiten"
 	"image"
-	stdimage "image"
 	"log"
 	"sync"
 	"time"
 
 	"github.com/giongto35/cloud-game/pkg/config"
 	"github.com/giongto35/cloud-game/pkg/util"
+	"github.com/giongto35/cloud-game/pkg/util/gamelist/2048"
+
 )
 
 
@@ -93,7 +95,11 @@ func (na *naEmulator) SetViewport(width int, height int) {
 }
 
 func (na *naEmulator) Start() {
-	na.playGame(na.gamePath)
+	game,err := twenty48.NewGame()
+	img, _ := ebiten.NewImage(na.meta.Width, na.meta.Height, ebiten.FilterDefault)
+	if err != nil{
+		log.Fatal(err)
+	}
 	ticker := time.NewTicker(time.Second / 60)
 
 	for range ticker.C {
@@ -105,8 +111,8 @@ func (na *naEmulator) Start() {
 			log.Println("Closed Director")
 			return
 		default:
-			im := stdimage.NewRGBA(stdimage.Rect(0, 0, int(na.meta.Width), int(na.meta.Height)))
-			na.imageChannel <- im
+			game.Draw(img)
+			na.imageChannel <- img.ToRGBA()
 			p := make([]int16, 10)
 			na.audioChannel <- p
 		}
