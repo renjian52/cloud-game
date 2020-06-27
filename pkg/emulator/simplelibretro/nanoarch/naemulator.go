@@ -112,7 +112,7 @@ func (na *naEmulator) Start() {
 		time.Sleep(100*time.Millisecond)
 		select {
 		default:
-			game.Draw(img)
+			game.Draw()
 			na.imageChannel <- game.GetImageRGBA()
 		}
 
