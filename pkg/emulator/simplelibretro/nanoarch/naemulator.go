@@ -108,21 +108,14 @@ func (na *naEmulator) Start() {
 		fmt.Println("In start, ticker...")
 		<- ticker.C
 		select {
-		// Slow response here
-		case <-na.done:
-			close(na.imageChannel)
-			close(na.audioChannel)
-			log.Println("Closed Director")
-			return
 		default:
 			game.Draw(img)
-			na.imageChannel <- img.ToRGBA()
+			na.imageChannel <- game.GetImageRGBA()
 			p := make([]int16, 10)
 			na.audioChannel <- p
 		}
 
-		na.GetLock()
-		na.ReleaseLock()
+
 	}
 }
 

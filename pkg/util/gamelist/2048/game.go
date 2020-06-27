@@ -16,6 +16,7 @@ package twenty48
 
 import (
 	"fmt"
+	"image"
 	"math/rand"
 	"time"
 
@@ -92,4 +93,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	y := (sh - bh) / 2
 	op.GeoM.Translate(float64(x), float64(y))
 	screen.DrawImage(g.boardImage, op)
+}
+
+func (g *Game) GetImageRGBA() *image.RGBA {
+	return g.boardImage.ToRGBA()
 }
