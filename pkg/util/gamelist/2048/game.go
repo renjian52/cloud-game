@@ -64,6 +64,7 @@ func (g *Game) Run() error {
 		if err := g.board.Update(g.input); err != nil {
 			fmt.Printf("Got error: %v", err)
 		}
+		g.board.Draw(g.boardImage)
 	}
 	return nil
 
@@ -79,20 +80,12 @@ func (g *Game) Update(*ebiten.Image) error {
 }
 
 // Draw draws the current game to the given screen.
-func (g *Game) Draw(screen *ebiten.Image) {
+func (g *Game) Draw() {
 	if g.boardImage == nil {
 		w, h := g.board.Size()
 		g.boardImage, _ = ebiten.NewImage(w, h, ebiten.FilterDefault)
 	}
-	screen.Fill(backgroundColor)
 	g.board.Draw(g.boardImage)
-	op := &ebiten.DrawImageOptions{}
-	sw, sh := screen.Size()
-	bw, bh := g.boardImage.Size()
-	x := (sw - bw) / 2
-	y := (sh - bh) / 2
-	op.GeoM.Translate(float64(x), float64(y))
-	screen.DrawImage(g.boardImage, op)
 }
 
 func (g *Game) GetImageRGBA() *image.RGBA {

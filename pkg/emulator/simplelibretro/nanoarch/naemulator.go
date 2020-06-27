@@ -100,8 +100,9 @@ func (na *naEmulator) Start() {
 	if err != nil{
 		log.Fatal(err)
 	}
-	go game.Run()
 	img, err := ebiten.NewImage(na.meta.Width, na.meta.Height, ebiten.FilterDefault)
+	game.Draw()
+	go game.Run()
 	if err != nil{
 		log.Fatal(err)
 	}
