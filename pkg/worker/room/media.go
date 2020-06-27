@@ -140,7 +140,7 @@ func (r *Room) startVideo(width, height int, videoEncoderType string) {
 		encoder, err = h264encoder.NewH264Encoder(width, height, 1)
 	} else {
 		fmt.Println("create new encoder encode type:", videoEncoderType)
-		encoder, err = vpxencoder.NewVpxEncoder(width, height, 20, 1200, 5)
+		encoder, err = vpxencoder.NewVpxEncoder(320, 240, 20, 1200, 5)
 	}
 
 	defer func() {
