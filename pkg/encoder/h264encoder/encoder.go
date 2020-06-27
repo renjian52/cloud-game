@@ -2,6 +2,7 @@ package h264encoder
 
 import (
 	"bytes"
+	"fmt"
 	"image"
 	"log"
 	"runtime/debug"
@@ -75,7 +76,7 @@ func (v *H264Encoder) startLooping() {
 	}()
 
 	for img := range v.Input {
-		log.Println("Get image from encoder input ")
+		fmt.Println("Get image from encoder input ")
 		err := v.enc.Encode(img)
 		if err != nil {
 			log.Println("err encoding ", img, " using h264")
