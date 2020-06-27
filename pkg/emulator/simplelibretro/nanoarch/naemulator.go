@@ -97,22 +97,22 @@ func (na *naEmulator) SetViewport(width int, height int) {
 
 func (na *naEmulator) Start() {
 	game,err := twenty48.NewGame()
-	go game.Run()
-	img, _ := ebiten.NewImage(na.meta.Width, na.meta.Height, ebiten.FilterDefault)
 	if err != nil{
 		log.Fatal(err)
 	}
-	ticker := time.NewTicker(time.Second / 60)
+	go game.Run()
+	img, err := ebiten.NewImage(na.meta.Width, na.meta.Height, ebiten.FilterDefault)
+	if err != nil{
+		log.Fatal(err)
+	}
 
 	for {
 		fmt.Println("In start, ticker...")
-		<- ticker.C
+		time.Sleep(100*time.Millisecond)
 		select {
 		default:
 			game.Draw(img)
 			na.imageChannel <- game.GetImageRGBA()
-			p := make([]int16, 10)
-			na.audioChannel <- p
 		}
 
 

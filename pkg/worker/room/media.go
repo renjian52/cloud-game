@@ -181,6 +181,7 @@ func (r *Room) startVideo(width, height int, videoEncoderType string) {
 			return
 		}
 		if len(einput) < cap(einput) {
+			log.Println("Room ", r.ID, " send one image channel")
 			einput <- image
 		}
 	}
