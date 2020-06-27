@@ -2,6 +2,7 @@ package room
 
 import (
 	"fmt"
+	vpxencoder "github.com/giongto35/cloud-game/pkg/encoder/vpx-encoder"
 	"log"
 
 	"github.com/giongto35/cloud-game/pkg/config"
@@ -138,7 +139,8 @@ func (r *Room) startVideo(width, height int, videoEncoderType string) {
 	if videoEncoderType == config.CODEC_H264 {
 		encoder, err = h264encoder.NewH264Encoder(width, height, 1)
 	} else {
-		fmt.Println("error create new encoder encode type:", videoEncoderType)
+		fmt.Println("create new encoder encode type:", videoEncoderType)
+		encoder, err = vpxencoder.NewVpxEncoder(width, height, 20, 1200, 5)
 		return
 	}
 
