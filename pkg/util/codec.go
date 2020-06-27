@@ -88,5 +88,5 @@ func savePath(hash string) string {
 // Actually Android is only supporting VP8 but H264 has better encoding performance
 // TODO: Better use useragent attribute from frontend
 func GetVideoEncoder(isMobile bool) string {
-	return config.CODEC_H264
+	return config.CODEC_VP8
 }
