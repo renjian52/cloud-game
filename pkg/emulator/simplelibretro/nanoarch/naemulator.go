@@ -2,7 +2,6 @@ package nanoarch
 
 import (
 	"fmt"
-	"github.com/hajimehoshi/ebiten"
 	"image"
 	"log"
 	"sync"
@@ -11,7 +10,6 @@ import (
 	"github.com/giongto35/cloud-game/pkg/config"
 	"github.com/giongto35/cloud-game/pkg/util"
 	"github.com/giongto35/cloud-game/pkg/util/gamelist/2048"
-
 )
 
 
@@ -100,7 +98,6 @@ func (na *naEmulator) Start() {
 	if err != nil{
 		log.Fatal(err)
 	}
-	img, err := ebiten.NewImage(na.meta.Width, na.meta.Height, ebiten.FilterDefault)
 	game.Draw()
 	go game.Run()
 	if err != nil{
