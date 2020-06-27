@@ -15,6 +15,7 @@
 package twenty48
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -54,6 +55,17 @@ func NewGame() (*Game, error) {
 // Layout implements ebiten.Game's Layout.
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
 	return ScreenWidth, ScreenHeight
+}
+
+func (g *Game) Run() error {
+	for {
+		time.Sleep(3 * time.Second)
+		if err := g.board.Update(g.input); err != nil {
+			fmt.Printf("Got error: %v", err)
+		}
+	}
+	return nil
+
 }
 
 // Update updates the current game state.

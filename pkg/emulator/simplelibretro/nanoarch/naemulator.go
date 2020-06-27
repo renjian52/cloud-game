@@ -96,6 +96,7 @@ func (na *naEmulator) SetViewport(width int, height int) {
 
 func (na *naEmulator) Start() {
 	game,err := twenty48.NewGame()
+	go game.Run()
 	img, _ := ebiten.NewImage(na.meta.Width, na.meta.Height, ebiten.FilterDefault)
 	if err != nil{
 		log.Fatal(err)

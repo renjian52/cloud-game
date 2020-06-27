@@ -65,7 +65,7 @@ func (b *Board) Update(input *Input) error {
 		}
 		return nil
 	}
-	if dir, ok := input.Dir(); ok {
+	if dir, ok := input.RandomDir(); ok {
 		if err := b.Move(dir); err != nil {
 			return err
 		}

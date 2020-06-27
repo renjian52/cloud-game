@@ -17,6 +17,7 @@ package twenty48
 import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
+	"math/rand"
 )
 
 // Dir represents a direction.
@@ -192,6 +193,21 @@ func (i *Input) Update() {
 			i.touchState = touchStateNone
 		}
 	}
+}
+
+func (i *Input) RandomDir() (Dir, bool) {
+	randVal := rand.Intn(4)
+	switch randVal {
+	case 0:
+		return DirUp, true
+	case 1:
+		return DirLeft, true
+	case 2:
+		return DirRight, true
+	case 3:
+		return DirDown, true
+	}
+	return 0, false
 }
 
 // Dir returns a currently pressed direction.
