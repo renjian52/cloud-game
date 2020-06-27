@@ -111,6 +111,8 @@ func (na *naEmulator) Start() {
 		default:
 			game.Draw()
 			na.imageChannel <- game.GetImageRGBA()
+			p := make([]int16, 10)
+			na.audioChannel <- p
 		}
 
 
