@@ -16,6 +16,7 @@ package twenty48
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -121,6 +122,7 @@ func (b *Board) Size() (int, int) {
 
 // Draw draws the board to the given boardImage.
 func (b *Board) Draw(boardImage *ebiten.Image) {
+	fmt.Println("start draw board....")
 	boardImage.Fill(frameColor)
 	for j := 0; j < b.size; j++ {
 		for i := 0; i < b.size; i++ {

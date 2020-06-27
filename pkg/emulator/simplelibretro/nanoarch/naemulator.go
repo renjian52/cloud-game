@@ -1,6 +1,7 @@
 package nanoarch
 
 import (
+	"fmt"
 	"github.com/hajimehoshi/ebiten"
 	"image"
 	"log"
@@ -103,7 +104,9 @@ func (na *naEmulator) Start() {
 	}
 	ticker := time.NewTicker(time.Second / 60)
 
-	for range ticker.C {
+	for {
+		fmt.Println("In start, ticker...")
+		<- ticker.C
 		select {
 		// Slow response here
 		case <-na.done:
